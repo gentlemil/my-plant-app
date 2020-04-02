@@ -1,0 +1,30 @@
+.countdown {
+    font-size: 1.8rem;
+    margin: 0 auto;
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid whitesmoke;
+}
+
+.countdown .main-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+}
+
+.details {
+    padding: 0.5rem 2rem;
+}
+
+
+
+.countdown__icons {
+    cursor: pointer;
+    display: none;
+    float: right;
+    font-size: 1.2rem;
+}
+
+.countdown:hover .countdown__icons {
+    display: block;
+}

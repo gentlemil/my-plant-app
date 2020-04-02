@@ -1,0 +1,40 @@
+#root,
+.app {
+    min-height: 100%;
+}
+
+#root {
+    width: 100vw;
+    background-color: #08e1ae;
+    background-image: linear-gradient(315deg, #08e1ae 0%, #98de5b 74%);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 100;
+}
+
+.app {
+    width: 1000px;
+    /* background-color: #3181F2; */
+
+    margin: 0 auto;
+    padding: 1rem;
+    border: 1px solid whitesmoke;
+
+}
+
+.plants,
+.categories,
+.plant-add-form {
+    border: 1px solid whitesmoke;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.plant-add-form {
+    width: 100%;
+
+}
+
+.label-form {
+    font-size: 1.1rem;
+    padding-right: 2rem;
+}

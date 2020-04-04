@@ -5,19 +5,22 @@
 
 #root {
     width: 100vw;
-    background-color: #08e1ae;
-    background-image: linear-gradient(315deg, #08e1ae 0%, #98de5b 74%);
+    background-color: #0F6E29;
+    background-image: linear-gradient(315deg, rgb(22, 145, 55) 0%, rgb(85, 172, 10) 74%);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: 100;
 }
 
 .app {
-    width: 1000px;
-    /* background-color: #3181F2; */
-
+    max-width: 1000px;
     margin: 0 auto;
     padding: 1rem;
     border: 1px solid whitesmoke;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    /* justify-content: center; */
 
 }
 

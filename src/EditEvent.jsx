@@ -1,10 +1,37 @@
 import React from 'react';
 import './EditEvent.css'
+import PropTypes from 'prop-types'
+import {
+    isValidNumberInput,
+    parseInputAsNumber,
+    // isValidName,
+    isValidHour,
+    isValidMinute,
 
-// import { isValidNumberInput } from './utils'
+} from './utils'
 
 
 const EditEvent = props => {
+
+    // sprawdza czy godzina i minuta zostaly poprawnie podane
+    const isFormValid =
+        isValidHour(props.hour) &&
+        isValidMinute(props.minute)
+
+    // sprawdza czy formularz jest pusty, aby uruchomic przycisk 'cancel'
+    const isFormEmpty =
+        props.plantName === '' &&
+        props.plantCategory === '' &&
+        props.plantRoom === '' &&
+        props.hour === -1 &&
+        props.minute === -1 &&
+        props.fertilizingInterval === '' &&
+        props.requiredExposure === '' &&
+        props.requiredTemperature === '' &&
+        props.requiredHumidity === '' &&
+        props.plantBlooming === '' &&
+        props.plantDifficulty === ''
+
     return (
         <div className='edit-event ui form'>
 
@@ -67,18 +94,43 @@ const EditEvent = props => {
                     </select>
                 </div>
 
-                {/* ---------------------------------- */}
-
-                <div className='edit-event__input-group five wide field'>
+                {/* <div className='edit-event__input-group five wide field'>
                     <label htmlFor='wateringInterval'>Watering Interval:</label>
                     <input
                         type='text'
                         id='wateringInterval'
                         name='wateringInterval'
                         value={props.wateringInterval}
-
+                        onKeyPress={e => isValidNumberInput(e)}
                         onChange={
                             e => props.onInputChange({ [e.target.name]: [e.target.value] })
+                        }
+                    />
+                </div> */}
+                <div className='edit-event__input-group five wide field'>
+                    <label htmlFor='wateringInterval'>Watering time:</label>
+                    <input
+                        type='tel'
+                        id='hour'
+                        name='hour'
+                        value={props.hour === -1 ? '' : props.hour}
+                        onKeyPress={e => isValidNumberInput(e)}
+                        onChange={
+                            e => props.onInputChange({
+                                [e.target.name]: parseInputAsNumber(e.target.value)
+                            })
+                        }
+                    />
+                    <input
+                        type='tel'
+                        id='minute'
+                        name='minute'
+                        value={props.minute === -1 ? '' : props.minute}
+                        onKeyPress={e => isValidNumberInput(e)}
+                        onChange={
+                            e => props.onInputChange({
+                                [e.target.name]: parseInputAsNumber(e.target.value)
+                            })
                         }
                     />
                 </div>
@@ -89,7 +141,7 @@ const EditEvent = props => {
                         id='fertilizingInterval'
                         name='fertilizingInterval'
                         value={props.fertilizingInterval}
-
+                        onKeyPress={e => isValidNumberInput(e)}
                         onChange={
                             e => props.onInputChange({ [e.target.name]: [e.target.value] })
                         }
@@ -106,7 +158,7 @@ const EditEvent = props => {
                         id='requiredExposure'
                         name='requiredExposure'
                         value={props.requiredExposure}
-
+                        onKeyPress={e => isValidNumberInput(e)}
                         onChange={
                             e => props.onInputChange({ [e.target.name]: [e.target.value] })
                         }
@@ -119,7 +171,7 @@ const EditEvent = props => {
                         id='requiredTemperature'
                         name='requiredTemperature'
                         value={props.requiredTemperature}
-
+                        onKeyPress={e => isValidNumberInput(e)}
                         onChange={
                             e => props.onInputChange({ [e.target.name]: [e.target.value] })
                         }
@@ -132,7 +184,7 @@ const EditEvent = props => {
                         id='requiredHumidity'
                         name='requiredHumidity'
                         value={props.requiredHumidity}
-
+                        onKeyPress={e => isValidNumberInput(e)}
                         onChange={
                             e => props.onInputChange({ [e.target.name]: [e.target.value] })
                         }
@@ -177,16 +229,38 @@ const EditEvent = props => {
 
             </div>
 
-
-
             {/* ---------------------------------- */}
 
             {/* <div className='fields'> */}
-            <button className='ui primary button ' onClick={() => props.onSave()}>OK</button>
-            <button className='ui button '>CANCEL</button>
+
+            {/* form ok --> isformvalid --> true
+            form nie ok --> isformvalid --> false
+            guzik odblokowany ---> false
+            guzik zablokowany ---> true */}
+            <button className='ui primary button' disabled={!isFormValid} onClick={() => props.onSave()}>OK</button>
+            <button className='ui button' onClick={() => props.onCancel()} disabled={isFormEmpty} >CANCEL</button>
             {/* </div> */}
         </div>
     );
 };
+
+EditEvent.propTypes = {
+    plantName: PropTypes.string,
+    plantCategory: PropTypes.string,
+    plantRoom: PropTypes.string,
+    // wateringInterval: PropTypes.number,
+    hour: PropTypes.number,
+    minute: PropTypes.number,
+    fertilizingInterval: PropTypes.number,
+    requiredExposure: PropTypes.number,
+    requiredTemperature: PropTypes.number,
+    requiredHumidity: PropTypes.number,
+    // plantBlooming: PropTypes.number,
+    plantDifficulty: PropTypes.string,
+
+    onInputChange: PropTypes.func,
+    onSave: PropTypes.func,
+    onCancel: PropTypes.func,
+}
 
 export default EditEvent

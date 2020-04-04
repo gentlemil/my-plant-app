@@ -10,6 +10,8 @@ import axios from 'axios';
 import CategoryItem from './components/categories/CategoryItem';
 import Plant from './components/plants/Plant';
 
+
+
 const CATEGORIES_FETCH_DELAY = 50;
 const PLANTS_FETCH_DELAY = 50;
 
@@ -18,6 +20,11 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
+            now: {
+                hour: new Date().getHours(),
+                minute: new Date().getMinutes(),
+                seconds: new Date().getSeconds()
+            },
             // events sluzy do przechowywania roslin, ktore posiadamy.
             events: [
                 {
@@ -25,7 +32,9 @@ class App extends Component {
                     plantName: 'Eszeweria',
                     plantCategory: 'succulent',
                     plantRoom: 'bedroom',
-                    wateringInterval: '11',
+                    // wateringInterval: '11',
+                    hour: 10,
+                    minute: 0,
                     fertilizingInterval: '22',
                     requiredExposure: '33',
                     requiredTemperature: '44',
@@ -39,7 +48,9 @@ class App extends Component {
                     plantName: 'Rhipsalis',
                     plantCategory: 'succulent',
                     plantRoom: 'kitchen',
-                    wateringInterval: '22',
+                    // wateringInterval: '11',
+                    hour: 15,
+                    minute: 0,
                     fertilizingInterval: '33',
                     requiredExposure: '44',
                     requiredTemperature: '55',
@@ -53,7 +64,9 @@ class App extends Component {
                     plantName: 'Lophophora williamsii',
                     plantCategory: 'cacti',
                     plantRoom: 'kitchen',
-                    wateringInterval: '100',
+                    // wateringInterval: '11',
+                    hour: 20,
+                    minute: 0,
                     fertilizingInterval: '100',
                     requiredExposure: '90',
                     requiredTemperature: '30',
@@ -69,7 +82,9 @@ class App extends Component {
                 plantName: '',
                 plantCategory: '',
                 plantRoom: '',
-                wateringInterval: '',
+                // wateringInterval: '11',
+                hour: -1,
+                minute: -1,
                 fertilizingInterval: '',
                 requiredExposure: '',
                 requiredTemperature: '',
@@ -86,17 +101,11 @@ class App extends Component {
             inProgress: true,
             // value: '',
         }
-        // przerobic, bind jest przestarzaly
-        this.handleEditEvent = this.handleEditEvent.bind(this)
-        this.handleSaveEvent = this.handleSaveEvent.bind(this)
-        this.handleRemoveEvent = this.handleRemoveEvent.bind(this)
-        this.handleEditInit = this.handleEditInit.bind(this)
     }
 
     // --------------------------------------------------------------------------------------------
     // Fukcje wykorzystywane przez formularz ------------------------------------------------------
-    handleEditEvent(val) {
-        console.log(val)
+    handleEditEvent = (val) => {
         // this.setState({ editedEvents: val })    // nadpisuje zmiany, tracimy poprzednie dane
         this.setState(prevState => {
             return {
@@ -105,7 +114,7 @@ class App extends Component {
         })
     }
 
-    handleSaveEvent() {
+    handleSaveEvent = () => {
         this.setState(prevState => {
             const editedEventExists = prevState.events.find(
                 el => el.id === prevState.editedEvent.id
@@ -127,9 +136,19 @@ class App extends Component {
                 events: updatedEvents,
                 editedEvent: {
                     id: uniqid(),
-                    name: '',
+                    plantName: '',
+                    plantCategory: '',
+                    plantRoom: '',
+                    // wateringInterval: '',
                     hour: '',
-                    minute: ''
+                    minute: '',
+                    fertilizingInterval: '',
+                    requiredExposure: '',
+                    requiredTemperature: '',
+                    requiredHumidity: '',
+                    plantBlooming: '',
+                    plantDifficulty: '',
+                    isPalidrome: false,
                 },
             }
         })
@@ -147,13 +166,13 @@ class App extends Component {
         // }))
     }
 
-    handleRemoveEvent(id) {
+    handleRemoveEvent = (id) => {
         this.setState(prevState => ({
             events: prevState.events.filter(el => el.id !== id)
         }))
     }
 
-    handleEditInit(id) {
+    handleEditInit = (id) => {
         // console.log(id)
         this.setState(prevState => ({
             // editedEvent: { ...prevState.events[id] }
@@ -161,10 +180,61 @@ class App extends Component {
         }))
     }
 
+    handleEditCancel = () => {
+        // setState bo na szctywno wpisuje, nie odnosimy sie do 
+        // przeszlosci, dlatego nieuzywamy prevState
+        this.setState({
+            editedEvent: {
+                id: uniqid(),
+                plantName: '',
+                plantCategory: '',
+                plantRoom: '',
+                // wateringInterval: '11',
+                hour: -1,
+                minute: -1,
+                fertilizingInterval: '',
+                requiredExposure: '',
+                requiredTemperature: '',
+                requiredHumidity: '',
+                plantBlooming: '',
+                plantDifficulty: '',
+                isPalidrome: false,
+            },
+        })
+    }
+
+    timer = () => {
+        this.setState({
+            now: {
+                hour: new Date().getHours(),
+                minute: new Date().getMinutes(),
+                seconds: new Date().getSeconds()
+            }
+        });
+    }
+
+    palindrome = (str) => {
+        let reserved = str.split('').reserved().join('')
+        return str === reserved ? true : false
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log(prevState.plantName + '--->' + this.state.plantName)
+
+        if (this.state.plantName === 'kaktus') {
+            (this.setState({ isPalidrome: true }))
+        }
+
+
+
+
+
+    }
+
     // --------------------------------------------------------------------------------------------
     // Fukcje wykorzystywane do wyswietlania roslin i kategorii z API -----------------------------
 
-    componentDidMount() {
+    componentDidMount = () => {
         // console.log('componentDidMount');
 
         const stopProgress = () => {
@@ -177,13 +247,23 @@ class App extends Component {
             this.fetchPlants()
         ]).then(stopProgress);
 
+        // funckja pozwalajaca na odliczanie czasu, dodatkowo umieszczamy ja w stanie,
+        // zeby mozna bylo sie do niej odniesc w przyszlosci w razie potrzeby
+        const intervalId = setInterval(this.timer, 1000);
+        this.setState({ intervalId: intervalId })
+
     }
 
-    delayFetch(ms, method) {
+    // zerowanie timera
+    componentDidUnmount() {
+        clearInterval(this.state.intervalId)
+    }
+
+    delayFetch = (ms, method) => {
         return new Promise((resolve, reject) => setTimeout(() => method(resolve, reject), ms));
     }
 
-    fetchCategories() {
+    fetchCategories = () => {
         const requestUrl = 'http://gentle-tor-07382.herokuapp.com/categories/';
 
         return this.delayFetch(CATEGORIES_FETCH_DELAY, (resolve, reject) => {
@@ -205,7 +285,7 @@ class App extends Component {
         });
     }
 
-    fetchPlants() {
+    fetchPlants = () => {
         const requestUrl = 'http://gentle-tor-07382.herokuapp.com/plants/';
 
         return this.delayFetch(PLANTS_FETCH_DELAY, (resolve, reject) => {
@@ -231,17 +311,24 @@ class App extends Component {
     render() {
         const events = this.state.events.map(el => {
             return <Countdown
+                // key i id to nie to samo, key to info dla reacta, a id to info dla komponentu
                 key={el.id}
+                id={el.id}
                 plantName={el.plantName}
                 plantCategory={el.plantCategory}
                 plantRoom={el.plantRoom}
-                wateringInterval={el.wateringInterval}
+                // wateringInterval={el.wateringInterval}
+                hour={el.hour}
+                minute={el.minute}
                 fertilizingInterval={el.fertilizingInterval}
                 requiredExposure={el.requiredExposure}
                 requiredTemperature={el.requiredTemperature}
                 requiredHumidity={el.requiredHumidity}
                 plantBlooming={el.plantBlooming}
                 plantDifficulty={el.plantDifficulty}
+                isPalidrome={el.isPalidrome}
+
+                timeNow={this.state.now}
                 onRemove={id => this.handleRemoveEvent(id)}
                 onEditInit={id => this.handleEditInit(id)}
             />
@@ -265,7 +352,9 @@ class App extends Component {
                     plantName={this.state.editedEvent.plantName}
                     plantCategory={this.state.editedEvent.plantCategory}
                     plantRoom={this.state.editedEvent.plantRoom}
-                    wateringInterval={this.state.editedEvent.wateringInterval}
+                    // wateringInterval={this.state.editedEvent.wateringInterval}
+                    hour={this.state.editedEvent.hour}
+                    minute={this.state.editedEvent.minute}
                     fertilizingInterval={this.state.editedEvent.fertilizingInterval}
                     requiredExposure={this.state.editedEvent.requiredExposure}
                     requiredTemperature={this.state.editedEvent.requiredTemperature}
@@ -276,6 +365,7 @@ class App extends Component {
                     onInputChange={val => this.handleEditEvent(val)}
                     // onSave={() => alert('bumbum!')}
                     onSave={() => this.handleSaveEvent()}
+                    onCancel={() => this.handleEditCancel()}
                 />
 
                 <div className="app-container">

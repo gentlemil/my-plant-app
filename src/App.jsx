@@ -151,7 +151,11 @@ class App extends Component {
                     isPalidrome: false,
                 },
             }
-        })
+        },
+            // zapisywanie danych w localStorage
+            () => localStorage.setItem('events', JSON.stringify(this.state.events))
+
+        )
 
         // alert('bumszakalaka!')
         // this.setState(prevState => ({
@@ -169,7 +173,11 @@ class App extends Component {
     handleRemoveEvent = (id) => {
         this.setState(prevState => ({
             events: prevState.events.filter(el => el.id !== id)
-        }))
+        }),
+            // zapisywanie, a raczej usuwanie b danych w localStorage
+            () => localStorage.setItem('events', JSON.stringify(this.state.events))
+
+        )
     }
 
     handleEditInit = (id) => {
@@ -236,6 +244,10 @@ class App extends Component {
 
     componentDidMount = () => {
         // console.log('componentDidMount');
+
+        const storageEvents = JSON.parse(localStorage.getItem('events')) || [];
+        this.setState({ events: storageEvents })
+        console.log(storageEvents)
 
         const stopProgress = () => {
             console.log('stopProgress');

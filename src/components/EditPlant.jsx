@@ -1,5 +1,5 @@
 import React from 'react';
-import './EditEvent.css'
+import './EditPlant.css'
 import PropTypes from 'prop-types'
 import {
     isValidNumberInput,
@@ -8,10 +8,10 @@ import {
     isValidHour,
     isValidMinute,
 
-} from './utils'
+} from '../utils'
 
 
-const EditEvent = props => {
+const EditPlant = props => {
 
     // sprawdza czy godzina i minuta zostaly poprawnie podane
     const isFormValid =
@@ -43,6 +43,7 @@ const EditEvent = props => {
                         id='plantName'
                         name='plantName'
                         value={props.plantName}
+                        placeholder='e.g Rhipsalis'
                         onChange={e =>
                             props.onInputChange({ [e.target.name]: e.target.value })
                         }
@@ -55,7 +56,7 @@ const EditEvent = props => {
                         id='plantCategory'
                         name='plantCategory'
                         value={props.plantCategory}
-
+                        placeholder='choose one'
                         onChange={
                             e => props.onInputChange({ [e.target.name]: [e.target.value] })
                         }
@@ -80,7 +81,7 @@ const EditEvent = props => {
                         id='plantRoom'
                         name='plantRoom'
                         value={props.plantRoom}
-
+                        placeholder='choose one'
                         onChange={
                             e => props.onInputChange({ [e.target.name]: [e.target.value] })
                         }
@@ -107,32 +108,38 @@ const EditEvent = props => {
                         }
                     />
                 </div> */}
-                <div className='edit-event__input-group five wide field'>
+
+                <div className='edit-event__input-group three wide field'>
                     <label htmlFor='wateringInterval'>Watering time:</label>
-                    <input
-                        type='tel'
-                        id='hour'
-                        name='hour'
-                        value={props.hour === -1 ? '' : props.hour}
-                        onKeyPress={e => isValidNumberInput(e)}
-                        onChange={
-                            e => props.onInputChange({
-                                [e.target.name]: parseInputAsNumber(e.target.value)
-                            })
-                        }
-                    />
-                    <input
-                        type='tel'
-                        id='minute'
-                        name='minute'
-                        value={props.minute === -1 ? '' : props.minute}
-                        onKeyPress={e => isValidNumberInput(e)}
-                        onChange={
-                            e => props.onInputChange({
-                                [e.target.name]: parseInputAsNumber(e.target.value)
-                            })
-                        }
-                    />
+                    <div className='input-together'>
+                        <input
+                            type='tel'
+                            id='hour'
+                            name='hour'
+                            placeholder='hour'
+                            value={props.hour === -1 ? '' : props.hour}
+                            onKeyPress={e => isValidNumberInput(e)}
+                            onChange={
+                                e => props.onInputChange({
+                                    [e.target.name]: parseInputAsNumber(e.target.value)
+                                })
+                            }
+                        />
+                        <input
+                            type='tel'
+                            id='minute'
+                            name='minute'
+                            placeholder='minute'
+                            value={props.minute === -1 ? '' : props.minute}
+                            onKeyPress={e => isValidNumberInput(e)}
+                            onChange={
+                                e => props.onInputChange({
+                                    [e.target.name]: parseInputAsNumber(e.target.value)
+                                })
+                            }
+                        />
+                    </div>
+
                 </div>
                 <div className='edit-event__input-group five wide field'>
                     <label htmlFor='fertilizingInterval'>Fertilizing Interval:</label>
@@ -140,6 +147,7 @@ const EditEvent = props => {
                         type='text'
                         id='fertilizingInterval'
                         name='fertilizingInterval'
+                        placeholder='how mamny times per year'
                         value={props.fertilizingInterval}
                         onKeyPress={e => isValidNumberInput(e)}
                         onChange={
@@ -157,6 +165,7 @@ const EditEvent = props => {
                         type='text'
                         id='requiredExposure'
                         name='requiredExposure'
+                        placeholder='type in hours'
                         value={props.requiredExposure}
                         onKeyPress={e => isValidNumberInput(e)}
                         onChange={
@@ -170,6 +179,7 @@ const EditEvent = props => {
                         type='text'
                         id='requiredTemperature'
                         name='requiredTemperature'
+                        placeholder='type in celsius degree'
                         value={props.requiredTemperature}
                         onKeyPress={e => isValidNumberInput(e)}
                         onChange={
@@ -183,6 +193,7 @@ const EditEvent = props => {
                         type='text'
                         id='requiredHumidity'
                         name='requiredHumidity'
+                        placeholder='type in percent'
                         value={props.requiredHumidity}
                         onKeyPress={e => isValidNumberInput(e)}
                         onChange={
@@ -214,7 +225,7 @@ const EditEvent = props => {
                         id='plantDifficulty'
                         name='plantDifficulty'
                         value={props.plantDifficulty}
-
+                        placeholder='choose one'
                         onChange={
                             e => props.onInputChange({ [e.target.name]: [e.target.value] })
                         }
@@ -244,7 +255,7 @@ const EditEvent = props => {
     );
 };
 
-EditEvent.propTypes = {
+EditPlant.propTypes = {
     plantName: PropTypes.string,
     plantCategory: PropTypes.string,
     plantRoom: PropTypes.string,
@@ -263,4 +274,4 @@ EditEvent.propTypes = {
     onCancel: PropTypes.func,
 }
 
-export default EditEvent
+export default EditPlant

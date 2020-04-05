@@ -1,15 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './Countdown.css'
+import './ShowPlant.css'
 import {
     hourMinuteToSeconds,
     secondsToHourMinuteSecond,
 
-} from './utils'
+} from '../utils'
 
-import './../node_modules/semantic-ui-css/semantic.css'
+import './../../node_modules/semantic-ui-css/semantic.css'
+import Image from '../img/plant-image.png'
 
-const Countdown = props => {
+const ShowPlant = props => {
     // console.log(hourMinuteToSeconds(props.hour, props.minute))
     // console.log(hourMinuteToSeconds(props.timeNow.hour, props.timeNow.minute))
     const eventInSeconds = hourMinuteToSeconds(props.hour, props.minute)
@@ -25,10 +26,13 @@ const Countdown = props => {
 
     return (
         <div className='plant-container'>
-            <div className='countdown'>
+            <div className='plant-photo'>
+                <img src={Image} />
+            </div>
+            <div className='plant-details'>
                 <div className='main-line'>
                     <strong>{props.plantName}</strong>
-                    <div className='countdown__icons'>
+                    <div className='plant-details__icons'>
                         <i className='icon edit' onClick={() => props.onEditInit(props.id)} />
                         <i className='icon times' onClick={() => props.onRemove(props.id)} />
                     </div>
@@ -37,12 +41,15 @@ const Countdown = props => {
                     <div className='col'>
                         {/* <p className='element'><i class="calendar alternate outline icon"></i>water me in: {props.wateringInterval}minutes</p> */}
                         {/* <p className='element'><i class="calendar alternate outline icon"></i>watering time: {props.hour}:{props.minute}</p> */}
-                        <p className='element'><i class="calendar alternate outline icon"></i>watering time in: {diffText}</p>
-
                         <p className='element'><i class="leaf icon"></i> {props.plantCategory}</p>
+                        <p className='element time'><i class="calendar alternate outline icon"></i>water me in: {diffText}</p>
+                    </div>
+                    <div className='col'>
                         <p className='element'><i class="map pin icon"></i> {props.plantRoom}</p>
                         <p className='element'><i class="info icon"></i> {props.fertilizingInterval} times/year</p>
                         <p className='element'><i class="sun icon"></i> {props.requiredExposure} hours/day</p>
+                    </div>
+                    <div className='col'>
                         <p className='element'><i class="thermometer half icon"></i>{props.requiredTemperature}&#8451;</p>
                         <p className='element'><i class="cloud icon"></i> {props.requiredHumidity}%</p>
                         <p className='element'>Blooming: {props.plantBlooming}</p>
@@ -54,7 +61,7 @@ const Countdown = props => {
     )
 }
 
-Countdown.propTypes = {
+ShowPlant.propTypes = {
     plantName: PropTypes.string,
     plantCategory: PropTypes.string,
     plantRoom: PropTypes.string,
@@ -77,5 +84,5 @@ Countdown.propTypes = {
 
 }
 
-export default Countdown
+export default ShowPlant
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import './App.css'
 
-import Countdown from './Countdown.jsx'
-import EditEvent from './EditEvent'
+import ShowPlant from './components/ShowPlant.jsx'
+import EditPlant from './components/EditPlant.jsx'
 import uniqid from 'uniqid'
 
 import axios from 'axios';
@@ -25,8 +25,8 @@ class App extends Component {
                 minute: new Date().getMinutes(),
                 seconds: new Date().getSeconds()
             },
-            // events sluzy do przechowywania roslin, ktore posiadamy.
-            events: [
+            // myPlants sluzy do przechowywania roslin, ktore posiadamy.
+            myPlants: [
                 {
                     id: 0,
                     plantName: 'Eszeweria',
@@ -76,8 +76,8 @@ class App extends Component {
                     isPalidrome: false,
                 },
             ],
-            // editedEvent jest jakby szablonem kazdej rosliny z wartosciami poczatkowymi
-            editedEvent: {
+            // editedMyPlant jest jakby szablonem kazdej rosliny z wartosciami poczatkowymi
+            editedMyPlant: {
                 id: uniqid(),
                 plantName: '',
                 plantCategory: '',
@@ -105,36 +105,36 @@ class App extends Component {
 
     // --------------------------------------------------------------------------------------------
     // Fukcje wykorzystywane przez formularz ------------------------------------------------------
-    handleEditEvent = (val) => {
-        // this.setState({ editedEvents: val })    // nadpisuje zmiany, tracimy poprzednie dane
+    handleEditMyPlant = (val) => {
+        // this.setState({ editedMyPlants: val })    // nadpisuje zmiany, tracimy poprzednie dane
         this.setState(prevState => {
             return {
-                editedEvent: Object.assign(prevState.editedEvent, val)
+                editedMyPlant: Object.assign(prevState.editedMyPlant, val)
             }
         })
     }
 
-    handleSaveEvent = () => {
+    handleSaveMyPlant = () => {
         this.setState(prevState => {
-            const editedEventExists = prevState.events.find(
-                el => el.id === prevState.editedEvent.id
+            const editedMyPlantExists = prevState.myPlants.find(
+                el => el.id === prevState.editedMyPlant.id
             )
 
-            let updatedEvents;
-            if (editedEventExists) {
-                updatedEvents = prevState.events.map(el => {
-                    if (el.id === prevState.editedEvent.id)
-                        return prevState.editedEvent
+            let updatedMyPlants;
+            if (editedMyPlantExists) {
+                updatedMyPlants = prevState.myPlants.map(el => {
+                    if (el.id === prevState.editedMyPlant.id)
+                        return prevState.editedMyPlant
                     else
                         return el;
                 })
             } else {
-                updatedEvents = [...prevState.events, prevState.editedEvent]
+                updatedMyPlants = [...prevState.myPlants, prevState.editedMyPlant]
             }
 
             return {
-                events: updatedEvents,
-                editedEvent: {
+                myPlants: updatedMyPlants,
+                editedMyPlant: {
                     id: uniqid(),
                     plantName: '',
                     plantCategory: '',
@@ -153,15 +153,15 @@ class App extends Component {
             }
         },
             // zapisywanie danych w localStorage
-            () => localStorage.setItem('events', JSON.stringify(this.state.events))
+            () => localStorage.setItem('myPlants', JSON.stringify(this.state.myPlants))
 
         )
 
         // alert('bumszakalaka!')
         // this.setState(prevState => ({
-        //     events: [...prevState.events, prevState.editedEvent],
-        //     // editedEvent musimy ustawic tak, zeby dane z formularza nie zostawaly w pamieci
-        //     editedEvent: {
+        //     myPlants: [...prevState.myPlants, prevState.editedMyPlant],
+        //     // editedMyPlant musimy ustawic tak, zeby dane z formularza nie zostawaly w pamieci
+        //     editedMyPlant: {
         //         id: uniqid(),
         //         name: '',
         //         hour: '',
@@ -170,12 +170,12 @@ class App extends Component {
         // }))
     }
 
-    handleRemoveEvent = (id) => {
+    handleRemoveMyPlant = (id) => {
         this.setState(prevState => ({
-            events: prevState.events.filter(el => el.id !== id)
+            myPlants: prevState.myPlants.filter(el => el.id !== id)
         }),
             // zapisywanie, a raczej usuwanie b danych w localStorage
-            () => localStorage.setItem('events', JSON.stringify(this.state.events))
+            () => localStorage.setItem('myPlants', JSON.stringify(this.state.myPlants))
 
         )
     }
@@ -183,8 +183,8 @@ class App extends Component {
     handleEditInit = (id) => {
         // console.log(id)
         this.setState(prevState => ({
-            // editedEvent: { ...prevState.events[id] }
-            editedEvent: { ...prevState.events.find(el => el.id === id) }
+            // editedMyPlant: { ...prevState.myPlants[id] }
+            editedMyPlant: { ...prevState.myPlants.find(el => el.id === id) }
         }))
     }
 
@@ -192,7 +192,7 @@ class App extends Component {
         // setState bo na szctywno wpisuje, nie odnosimy sie do 
         // przeszlosci, dlatego nieuzywamy prevState
         this.setState({
-            editedEvent: {
+            editedMyPlant: {
                 id: uniqid(),
                 plantName: '',
                 plantCategory: '',
@@ -245,9 +245,9 @@ class App extends Component {
     componentDidMount = () => {
         // console.log('componentDidMount');
 
-        const storageEvents = JSON.parse(localStorage.getItem('events')) || [];
-        this.setState({ events: storageEvents })
-        console.log(storageEvents)
+        const storageMyPlants = JSON.parse(localStorage.getItem('myPlants')) || [];
+        this.setState({ myPlants: storageMyPlants })
+        console.log(storageMyPlants)
 
         const stopProgress = () => {
             console.log('stopProgress');
@@ -321,8 +321,8 @@ class App extends Component {
     // --------------------------------------------------------------------------------------------
     // --------------------------------------------------------------------------------------------
     render() {
-        const events = this.state.events.map(el => {
-            return <Countdown
+        const myPlants = this.state.myPlants.map(el => {
+            return <ShowPlant
                 // key i id to nie to samo, key to info dla reacta, a id to info dla komponentu
                 key={el.id}
                 id={el.id}
@@ -341,7 +341,7 @@ class App extends Component {
                 isPalidrome={el.isPalidrome}
 
                 timeNow={this.state.now}
-                onRemove={id => this.handleRemoveEvent(id)}
+                onRemove={id => this.handleRemoveMyPlant(id)}
                 onEditInit={id => this.handleEditInit(id)}
             />
         })
@@ -358,25 +358,25 @@ class App extends Component {
 
         return (
             <div className='app'>
-                {events}
-                <EditEvent
+                {myPlants}
+                <EditPlant
                     // ------- tutaj sprawiamy, ze nasz formularz sie czysci
-                    plantName={this.state.editedEvent.plantName}
-                    plantCategory={this.state.editedEvent.plantCategory}
-                    plantRoom={this.state.editedEvent.plantRoom}
-                    // wateringInterval={this.state.editedEvent.wateringInterval}
-                    hour={this.state.editedEvent.hour}
-                    minute={this.state.editedEvent.minute}
-                    fertilizingInterval={this.state.editedEvent.fertilizingInterval}
-                    requiredExposure={this.state.editedEvent.requiredExposure}
-                    requiredTemperature={this.state.editedEvent.requiredTemperature}
-                    requiredHumidity={this.state.editedEvent.requiredHumidity}
-                    plantBlooming={this.state.editedEvent.plantBlooming}
-                    plantDifficulty={this.state.editedEvent.plantDifficulty}
+                    plantName={this.state.editedMyPlant.plantName}
+                    plantCategory={this.state.editedMyPlant.plantCategory}
+                    plantRoom={this.state.editedMyPlant.plantRoom}
+                    // wateringInterval={this.state.editedMyPlant.wateringInterval}
+                    hour={this.state.editedMyPlant.hour}
+                    minute={this.state.editedMyPlant.minute}
+                    fertilizingInterval={this.state.editedMyPlant.fertilizingInterval}
+                    requiredExposure={this.state.editedMyPlant.requiredExposure}
+                    requiredTemperature={this.state.editedMyPlant.requiredTemperature}
+                    requiredHumidity={this.state.editedMyPlant.requiredHumidity}
+                    plantBlooming={this.state.editedMyPlant.plantBlooming}
+                    plantDifficulty={this.state.editedMyPlant.plantDifficulty}
                     // -------
-                    onInputChange={val => this.handleEditEvent(val)}
+                    onInputChange={val => this.handleEditMyPlant(val)}
                     // onSave={() => alert('bumbum!')}
-                    onSave={() => this.handleSaveEvent()}
+                    onSave={() => this.handleSaveMyPlant()}
                     onCancel={() => this.handleEditCancel()}
                 />
 

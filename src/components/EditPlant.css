@@ -1,0 +1,30 @@
+.edit-event {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    width: 100%;
+}
+
+input {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+placeholder {
+    color: black;
+}
+
+.ui.form .field>label {
+    font-size: 1.3rem;
+    color: #f8fcf9;
+    font-weight: 100;
+}
+
+.input-together {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button:disabled {
+    opacity: 0.8;
+}

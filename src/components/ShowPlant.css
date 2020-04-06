@@ -9,7 +9,10 @@
     padding: 1rem;
     border: 1px solid #33970c;
     background-color: #f8fcf9;
+    /* background-color: #33970c; */
     color: #33970c;
+    /* color: #f8fcf9; */
+
 }
 
 .plant-photo {

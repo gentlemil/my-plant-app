@@ -13,7 +13,7 @@
     max-width: 768px;
     margin: 0 auto;
     background-color: #33970c;
-    border: 1px solid #33970c;
+    /* border: 1px solid whitesmoke; */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

@@ -34,6 +34,7 @@ const EditPlant = props => {
 
     return (
         <div className='edit-event ui form'>
+            <h1 className='section-name'>Add new plant</h1>
 
             <div className='fields'>
                 <div className='edit-event__input-group ten wide field'>

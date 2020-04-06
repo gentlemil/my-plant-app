@@ -1,0 +1,26 @@
+#hamburger {
+    background-color: #33970c;
+    margin-bottom: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #f8fcf9;
+    color: #f8fcf9;
+    outline: none;
+    position: fixed;
+    top: 20px;
+    right: 470px;
+    transition: all .2s cubic-bezier(0, 1.26, .8, 1.28);
+}
+
+#hamburger:hover {
+    /* background-color: #96d9ff; */
+    cursor: pointer;
+    /* border-color: #003557; */
+    transform: scale(1.2, 1.2);
+}
+
+#hamburger:active {
+    border-color: #33970c;
+    background-color: #f8fcf9;
+}

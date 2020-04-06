@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import './App.css'
 
+import Navigation from './components/Navigation.jsx'
+import SlideMenu from './components/SlideMenu.jsx'
+import SlideMenuButton from './components/SlideMenuButton.jsx'
 import ShowPlant from './components/ShowPlant.jsx'
 import EditPlant from './components/EditPlant.jsx'
 import uniqid from 'uniqid'
@@ -17,8 +20,8 @@ const PLANTS_FETCH_DELAY = 50;
 
 class App extends Component {
     // Funkcja ktora zawsze wywolyje sie automatycznie z clasa app
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             now: {
                 hour: new Date().getHours(),
@@ -94,6 +97,7 @@ class App extends Component {
                 isPalidrome: false,
             },
 
+            visible: false,
             categories: [],
             // plants: [],
             successCategories: undefined,
@@ -101,7 +105,24 @@ class App extends Component {
             inProgress: true,
             // value: '',
         }
+        this.handleMouseDown = this.handleMouseDown.bind(this)
+        this.toggleMenu = this.toggleMenu.bind(this)
     }
+
+    // --------------------------------------------------------------------------------------------
+    // Fukcje wykorzystywane przez sliding-menu ---------------------------------------------------
+    handleMouseDown(e) {
+        this.toggleMenu();
+        console.log('menu button has been clicked')
+        e.stopPropagation();
+    }
+
+    toggleMenu() {
+        this.setState({
+            visible: !this.state.visible
+        });
+    }
+
 
     // --------------------------------------------------------------------------------------------
     // Fukcje wykorzystywane przez formularz ------------------------------------------------------
@@ -232,11 +253,6 @@ class App extends Component {
         if (this.state.plantName === 'kaktus') {
             (this.setState({ isPalidrome: true }))
         }
-
-
-
-
-
     }
 
     // --------------------------------------------------------------------------------------------
@@ -358,6 +374,12 @@ class App extends Component {
 
         return (
             <div className='app'>
+                <SlideMenuButton handleMouseDown={this.handleMouseDown} />
+                <SlideMenu
+                    handleMouseDown={this.handleMouseDown}
+                    menuVisibility={this.state.visible}
+                />
+                <Navigation />
                 {myPlants}
                 <EditPlant
                     // ------- tutaj sprawiamy, ze nasz formularz sie czysci

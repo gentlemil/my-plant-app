@@ -131,6 +131,7 @@ class App extends Component {
     // --------------------------------------------------------------------------------------------
     // Fukcje wykorzystywane przez formularz ------------------------------------------------------
     handleEditMyPlant = (val) => {
+        debugger;
         // this.setState({ editedMyPlants: val })    // nadpisuje zmiany, tracimy poprzednie dane
         this.setState(prevState => {
             return {
@@ -385,7 +386,7 @@ class App extends Component {
                 <BrowserRouter>
 
                     <div className="ui pointing menu menu-home">
-                        <Link to='/' className="item active item-home">PLANTS</Link>
+                        <Link to='/' className="item item-home">PLANTS</Link>
                         <Link to='/add-plant' className="item item-home">ADD</Link>
                         <Link to='/categories' className="item item-home">CATEGORIES</Link>
                         {/* <a className="item item-home">TO DO</a> */}

@@ -1,7 +1,25 @@
 .edit-event {
+    /* margin: 0 auto; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin-top: 1.5rem;
-    padding: 1rem;
+    /* padding: 1rem; */
     width: 100%;
+}
+
+.fields {
+    /* margin: 0 auto; */
+    display: flex;
+    justify-content: space-around;
+}
+
+.button-fields {
+    /* margin: 0 10rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 input {
@@ -23,7 +41,7 @@ input {
 }
 
 .button:disabled {
-    opacity: 0.8;
+    opacity: 0.1;
 }
 
 .section-name {

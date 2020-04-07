@@ -34,10 +34,10 @@ const EditPlant = props => {
 
     return (
         <div className='edit-event ui form'>
-            <h1 className='section-name'>Add new plant</h1>
+            <h1 className='section-name'>Fill following form to add new plant</h1>
 
             <div className='fields'>
-                <div className='edit-event__input-group ten wide field'>
+                <div className='edit-event__input-group nine wide field'>
                     <label htmlFor='plantName'>Name</label>     {/* htmlFor to to samo co className  */}
                     <input
                         type='text'
@@ -50,7 +50,7 @@ const EditPlant = props => {
                         }
                     />
                 </div>
-                <div className='edit-event__input-group six wide field'>
+                <div className='edit-event__input-group five wide field'>
                     <label htmlFor='hour'>Plant Category:</label>     {/* htmlFor to to samo co className  */}
                     <select
 
@@ -160,7 +160,7 @@ const EditPlant = props => {
 
 
             <div className='fields'>
-                <div className='edit-event__input-group six wide field'>
+                <div className='edit-event__input-group five wide field'>
                     <label htmlFor='requiredExposure'>Required Exposure:</label>
                     <input
                         type='text'
@@ -174,7 +174,7 @@ const EditPlant = props => {
                         }
                     />
                 </div>
-                <div className='edit-event__input-group six wide field'>
+                <div className='edit-event__input-group four wide field'>
                     <label className='requiredTemperature'>Required Temperature:</label>
                     <input
                         type='text'
@@ -188,7 +188,7 @@ const EditPlant = props => {
                         }
                     />
                 </div>
-                <div className='edit-event__input-group six wide field'>
+                <div className='edit-event__input-group five wide field'>
                     <label htmlFor='requiredHumidity'>Required Humidity:</label>
                     <input
                         type='text'
@@ -205,20 +205,6 @@ const EditPlant = props => {
             </div>
 
             <div className='fields'>
-                <div className='edit-event__input-group four wide field'>
-                    <label htmlFor='plantBlooming'>Blooming:</label>
-                    <input
-                        type='checkbox'
-                        id='plantBlooming'
-                        name='plantBlooming'
-                        checked={props.plantBlooming}
-                        value={props.plantBlooming}
-
-                        onChange={
-                            e => props.onInputChange({ [e.target.name]: [e.target.value] })
-                        }
-                    />
-                </div>
                 <div className='edit-event__input-group eight wide field'>
                     <label htmlFor='plantDifficulty'>Difficulty:</label>
                     <select
@@ -238,7 +224,20 @@ const EditPlant = props => {
                         <option value='high'>high</option>
                     </select>
                 </div>
+                <div className='edit-event__input-group four wide field'>
+                    <label htmlFor='plantBlooming'>Blooming:</label>
+                    <input
+                        type='checkbox'
+                        id='plantBlooming'
+                        name='plantBlooming'
+                        checked={props.plantBlooming}
+                        value={props.plantBlooming}
 
+                        onChange={
+                            e => props.onInputChange({ [e.target.name]: [e.target.value] })
+                        }
+                    />
+                </div>
             </div>
 
             {/* ---------------------------------- */}
@@ -249,8 +248,11 @@ const EditPlant = props => {
             form nie ok --> isformvalid --> false
             guzik odblokowany ---> false
             guzik zablokowany ---> true */}
-            <button className='ui primary button' disabled={!isFormValid} onClick={() => props.onSave()}>OK</button>
-            <button className='ui button' onClick={() => props.onCancel()} disabled={isFormEmpty} >CANCEL</button>
+            <div className='fields'>
+                <button className='ui primary button' disabled={!isFormValid} onClick={() => props.onSave()}>OK</button>
+                <button className='ui button' onClick={() => props.onCancel()} disabled={isFormEmpty} >CANCEL</button>
+
+            </div>
             {/* </div> */}
         </div>
     );

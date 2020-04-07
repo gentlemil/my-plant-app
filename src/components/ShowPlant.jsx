@@ -13,8 +13,8 @@ import Image from '../img/plant-image.png'
 const ShowPlant = props => {
     // console.log(hourMinuteToSeconds(props.hour, props.minute))
     // console.log(hourMinuteToSeconds(props.timeNow.hour, props.timeNow.minute))
-    const eventInSeconds = () => hourMinuteToSeconds(props.hour, props.minute)
-    const nowInSeconds = () => hourMinuteToSeconds(
+    const eventInSeconds = hourMinuteToSeconds(props.hour, props.minute)
+    const nowInSeconds = hourMinuteToSeconds(
         props.timeNow.hour,
         props.timeNow.minute
     ) + props.timeNow.seconds

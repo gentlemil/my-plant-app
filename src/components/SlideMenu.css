@@ -7,7 +7,10 @@
     top: 0;
     left: 0;
     /* MARGIN-LEFT ustawilem recznie! */
-    margin-left: 470px;
+    margin: 0;
+    padding: 0;
+    padding-inline-start: 0;
+    margin-left: 50px;
     transition: transform .3s cubic-bezier(0, .52, 0, 1);
     overflow: scroll;
     z-index: 1000;
@@ -15,11 +18,11 @@
 
 #flyoutMenu.hide {
     /* transform: translate3d(-100vw, 0, 0); */
-    transform: translate3d(0, -220vh, 0);
+    transform: translate3d(0, -300vh, 0);
 }
 
 #flyoutMenu.show {
-    /* transform: translate3d((0vw, 0, 0)); */
+    transform: translate3d((0vw, 0, 0));
     /* transform: translate3d((40vw, 200px, 0)); */
 }
 

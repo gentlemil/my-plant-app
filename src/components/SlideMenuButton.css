@@ -9,7 +9,7 @@
     outline: none;
     position: fixed;
     top: 20px;
-    right: 470px;
+    left: 40%;
     transition: all .2s cubic-bezier(0, 1.26, .8, 1.28);
 }
 

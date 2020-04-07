@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+    Link
+} from 'react-router-dom'
 import './App.css'
+import uniqid from 'uniqid'
+import axios from 'axios';
 
 import Navigation from './components/Navigation.jsx'
 import SlideMenu from './components/SlideMenu.jsx'
 import SlideMenuButton from './components/SlideMenuButton.jsx'
 import ShowPlant from './components/ShowPlant.jsx'
 import EditPlant from './components/EditPlant.jsx'
-import uniqid from 'uniqid'
 
-import axios from 'axios';
-// import { Button, Input, Label } from 'reactstrap';
 import CategoryItem from './components/categories/CategoryItem';
 import Plant from './components/plants/Plant';
 
@@ -105,19 +110,18 @@ class App extends Component {
             inProgress: true,
             // value: '',
         }
-        this.handleMouseDown = this.handleMouseDown.bind(this)
-        this.toggleMenu = this.toggleMenu.bind(this)
+
     }
 
     // --------------------------------------------------------------------------------------------
     // Fukcje wykorzystywane przez sliding-menu ---------------------------------------------------
-    handleMouseDown(e) {
+    handleMouseDown = (e) => {
         this.toggleMenu();
         console.log('menu button has been clicked')
         e.stopPropagation();
     }
 
-    toggleMenu() {
+    toggleMenu = () => {
         this.setState({
             visible: !this.state.visible
         });
@@ -333,7 +337,6 @@ class App extends Component {
     }
 
 
-
     // --------------------------------------------------------------------------------------------
     // --------------------------------------------------------------------------------------------
     render() {
@@ -371,7 +374,6 @@ class App extends Component {
             // value,
             isPalidrome,
         } = this.state;
-
         return (
             <div className='app'>
                 <SlideMenuButton handleMouseDown={this.handleMouseDown} />
@@ -380,75 +382,66 @@ class App extends Component {
                     menuVisibility={this.state.visible}
                 />
                 <Navigation />
-                {myPlants}
-                <EditPlant
-                    // ------- tutaj sprawiamy, ze nasz formularz sie czysci
-                    plantName={this.state.editedMyPlant.plantName}
-                    plantCategory={this.state.editedMyPlant.plantCategory}
-                    plantRoom={this.state.editedMyPlant.plantRoom}
-                    // wateringInterval={this.state.editedMyPlant.wateringInterval}
-                    hour={this.state.editedMyPlant.hour}
-                    minute={this.state.editedMyPlant.minute}
-                    fertilizingInterval={this.state.editedMyPlant.fertilizingInterval}
-                    requiredExposure={this.state.editedMyPlant.requiredExposure}
-                    requiredTemperature={this.state.editedMyPlant.requiredTemperature}
-                    requiredHumidity={this.state.editedMyPlant.requiredHumidity}
-                    plantBlooming={this.state.editedMyPlant.plantBlooming}
-                    plantDifficulty={this.state.editedMyPlant.plantDifficulty}
-                    // -------
-                    onInputChange={val => this.handleEditMyPlant(val)}
-                    // onSave={() => alert('bumbum!')}
-                    onSave={() => this.handleSaveMyPlant()}
-                    onCancel={() => this.handleEditCancel()}
-                />
+                <BrowserRouter>
 
-                <div className="app-container">
-                    {
-                        inProgress && <p>Loading data...</p>
-                    }
-                    {
-                        successCategories === false &&
-                        <p>Nie udało się pobrać Kategorii</p>
-                    }
-                    {
-                        successPlants === false &&
-                        <p>Nie udało się pobrać Kwiatow</p>
-                    }
-                    {
-                        successPlants &&
-                        <div className="plants">
-                            {
-                                plants.map((plant, index, arr) =>
-                                    <Plant
-                                        name={plant}
-                                        key={index}
-                                    />
-                                )
-                            }
+                    <div className="ui pointing menu menu-home">
+                        <Link to='/' className="item active item-home">PLANTS</Link>
+                        <Link to='/add-plant' className="item item-home">ADD</Link>
+                        <Link to='/categories' className="item item-home">CATEGORIES</Link>
+                        {/* <a className="item item-home">TO DO</a> */}
+                        <div className="right menu">
+                            <div className="item">
+                                <div className="ui transparent icon input">
+                                    <input type="text" placeholder="Search..." class="" />
+                                    <i className="search link icon"></i>
+                                </div>
+                            </div>
                         </div>
-                    }
-                    {
-                        successCategories &&
-                        <div className="categories">
-                            {
-                                categories.map((item, index, arr) =>
-                                    <CategoryItem
-                                        category={item}
-                                        label='category'
-                                        key={index}
-                                        isLastItem={arr.length - 1 === index}
-                                        index={index}
-                                    />
-                                )
-                            }
-                        </div>
-                    }
-                </div>
+                    </div>
+
+                    <Routes>
+                        <Route
+                            path='/'
+                            element={myPlants} />
+                        <Route
+                            path='/add-plant'
+                            element={<EditPlant
+                                // ------- tutaj sprawiamy, ze nasz formularz sie czysci
+                                plantName={this.state.editedMyPlant.plantName}
+                                plantCategory={this.state.editedMyPlant.plantCategory}
+                                plantRoom={this.state.editedMyPlant.plantRoom}
+                                // wateringInterval={this.state.editedMyPlant.wateringInterval}
+                                hour={this.state.editedMyPlant.hour}
+                                minute={this.state.editedMyPlant.minute}
+                                fertilizingInterval={this.state.editedMyPlant.fertilizingInterval}
+                                requiredExposure={this.state.editedMyPlant.requiredExposure}
+                                requiredTemperature={this.state.editedMyPlant.requiredTemperature}
+                                requiredHumidity={this.state.editedMyPlant.requiredHumidity}
+                                plantBlooming={this.state.editedMyPlant.plantBlooming}
+                                plantDifficulty={this.state.editedMyPlant.plantDifficulty}
+                                // -------
+                                onInputChange={val => this.handleEditMyPlant(val)}
+                                // onSave={() => alert('bumbum!')}
+                                onSave={() => this.handleSaveMyPlant()}
+                                onCancel={() => this.handleEditCancel()}
+                            />} />
+                        <Route
+                            path='/categories'
+                            element={categories.map((item, index, arr) =>
+                                <CategoryItem
+                                    category={item}
+                                    label='category'
+                                    key={index}
+                                    isLastItem={arr.length - 1 === index}
+                                    index={index}
+                                />
+                            )}
+                        />
+                    </Routes>
+                </BrowserRouter>
             </div>
         )
     }
 }
-
-// const App = () => ();
 
 export default App;

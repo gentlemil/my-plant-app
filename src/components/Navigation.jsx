@@ -1,6 +1,6 @@
 import React from 'react'
 import './Navigation.css'
-import './../../node_modules/semantic-ui-css/semantic.css'
+import './../semantic-ui-css/semantic.css'
 import Logo from '../img/plant-icon.png'
 
 

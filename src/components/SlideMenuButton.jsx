@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './SlideMenuButton.css'
 
-import './../../node_modules/semantic-ui-css/semantic.css'
+import './../semantic-ui-css/semantic.css'
 
 class SlideMenuButton extends Component {
     render() {
